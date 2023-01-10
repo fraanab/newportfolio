@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% block title %}Francisco Abalos{% endblock %}
+{% load static %}
+{% block main %}
+
+<section class="about">
+	<div>
+		<h3>Hey, i'm Francisco and</h3>
+		<h1>I'm a <span>Django</span> web developer</h1>
+	</div>
+	<div class="mockup">
+		<a href="#services" class="subtle2">What is</a>
+		<img src="{% static 'django2s.png' %}" alt="mockup" class="mockup"> 
+		<a href="#services" class="subtle2">?</a>
+	</div>
+	<a href="#services" class="btn2 call-to-action">My Services</a>
+	<div class="more"><i class="fa-solid fa-arrow-down"></i></div>
+</section>
+
+<p class="myprojects-title" id="services" style="text-align: center; margin-bottom: 1rem;">My services</p>
+
+<section class="services">
+	<div class="service">
+		<h2>Services</h2>
+		<br>
+		<p><span>Django</span> is a content management system built with Python, used to develop websites.</p>
+		<br>
+		<p>I am currently <span>freelancing</span>, and yes, I am <span>available</span> right now!</p>
+		<br>
+		<p>With <span>Python, HTML, and CSS</span>, I can code your <span>Web app</span>,</p>
+		<br>
+		<p>hit me up on these links so we can work together, or, <a href="#contact">contact me</a> below!</p>
+	</div>
+	<div class="service-links">
+		<a href="#"><img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Flogos-download.com%2Fwp-content%2Fuploads%2F2019%2F11%2FFiverr_Logo.png&f=1&nofb=1&ipt=e0995fc123f2e44d2fe5d5b3274c1f6423f94558f28b601ab4629b87b33671a4&ipo=images" alt="fiverr link"></a>
+		<a href="#"><img src="https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Flogos-download.com%2Fwp-content%2Fuploads%2F2016%2F11%2FUpwork_logo_logotype.png&f=1&nofb=1&ipt=623fa138e19f7566a99ed41982cc6bfd6adaa1e7ea15c8f038e65d1f8f2d576f&ipo=images" alt="upwork link"></a>
+		<a href="#"><img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Flogos-download.com%2Fwp-content%2Fuploads%2F2016%2F06%2FFreelancer_logo.png&f=1&nofb=1&ipt=2511b136fd73c32c35d143b0319a149b5c4ac54fca6b624f435b8f8626e16425&ipo=images" alt="freelancer link"></a>
+	</div>
+</section>
+
+<p class="myprojects-title" id="projects" style="text-align: center; margin-bottom: 1rem;">My projects</p>
+<section class="projects" >
+	{% if projects %}
+    
+		{% for project in projects %}
+	    <div class="project">
+			<a href="{% url 'project' project.slug %}">
+				<img src="{{ project.thumbnail.url }}" alt="{{ project.title }}">
+				<div class="project-bottom">
+					<h2>{{ project.title }}</h2>
+					<p>{{ project.description|slice:'0:40' }}...</p>
+				</div>
+			</a>
+		</div>
+		{% endfor %}
+
+	{% else %}
+    	<p class="subtle">Projects are displayed here</p>
+	{% endif %}
+
+	<!-- projects -->
+</section>
+
+<section class="contact" id="contact">
+	<div class="contact-left">
+		<h2><span>Contact me</span> right here</h2>
+		<p>or</p>
+		<h4>Send me an email to: <a href="mailto:fraanab.oml@gmail.com">fraanab.oml@gmail.com</a></h4>
+		<p>I'll try to reach you as soon as possible via email!</p>
+	</div>
+	<form action="." method="POST">
+		{% csrf_token %}
+		{{contactform}}
+		<button class="btn2">Send</button>
+	</form>
+</section>
+
+<p class="subtle" style="text-align: center;margin-bottom: 1rem;">Thank you for visiting <i class="fa-solid fa-face-smile-beam"></i></p>
+
+{% endblock %}

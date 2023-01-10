@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %} Log In {% endblock %}
+{% block main %}
+
+<section class="sign">
+	<h1>Log In</h1>
+	<form action="." method="POST">
+		{% csrf_token %}
+
+		<input type="text" name="username" placeholder="Username">
+		<input type="password" name="password" placeholder="*******">
+		<button class="btn2">Log In</button>
+		<a href="{% url 'signup' %}" class="subtle">Click here to create an account.</a>
+	</form>
+</section>
+
+{% endblock %}

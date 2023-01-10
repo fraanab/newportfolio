@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+{% block title %} {{ project.title }} {% endblock %}
+{% block main %}
+
+<section class="project-page">
+	<h1>{{project.title}} <span class="subtle2">by me</span></h1>
+	<p>{{project.description}}</p>
+	
+	{% if project.thumbnail and project.frontpageText and project.featureSignIn and project.featureSignInText and project.featureDashboard and project.featureDashboardText and project.featureCrud and project.featureCrudText %}
+	
+	<div class="project-page-grid">
+		
+		<div class="featureobj">
+			<div class="objimg">
+				<img src="{{project.thumbnail.url}}" alt="{{project.title}}">
+			</div>
+			<div class="objp">
+				<p>{{project.frontpageText}}</p>
+			</div>
+		</div>
+
+		<div class="featureobj">
+			<div class="objimg">
+				<img src="{{project.featureSignIn.url}}" alt="{{project.title}}">
+			</div>
+			<div class="objp">
+				<p>{{project.featureSignInText}}</p>
+			</div>
+		</div>
+
+		<div class="featureobj">
+			<div class="objimg">
+				<img src="{{project.featureDashboard.url}}" alt="{{project.title}}">
+			</div>
+			<div class="objp">
+				<p>{{project.featureDashboardText}}</p>
+			</div>
+		</div>
+
+		<div class="featureobj">
+			<div class="objimg">
+				<img src="{{project.featureCrud.url}}" alt="{{project.title}}">
+			</div>
+			<div class="objp">
+				<p>{{project.featureCrudText}}</p>
+			</div>
+		</div>
+		
+	</div>    
+	
+	{% endif %}
+
+	<p style="text-align: center;width: 100%;margin-top: 9rem;">All designs are mobile friendly.</p>
+
+	{% if project.responsive1 and project.responsive2 and project.responsive3 %}
+	    
+		<div class="responsive-grid">
+			<div class="responsiveimg">
+				<img src="{{project.responsive1.url}}" alt="{{project.title}}">
+			</div>
+
+			<div class="responsiveimg">
+				<img src="{{project.responsive2.url}}" alt="{{project.title}}">
+			</div>
+
+			<div class="responsiveimg">
+				<img src="{{project.responsive3.url}}" alt="{{project.title}}">
+			</div>
+		</div>
+	
+	{% endif %}
+
+	{% if project.url %}
+	    
+		<div class="site-url">
+			<a title="Take me to this project's website" class="btn2" href="{{project.url}}">Visit site</a>
+			<form action="{% url 'upvoteProj' project.slug %}" method="POST">
+				{% csrf_token %}
+				<button title="Upvote this" class="btn2"><i class="fa-solid fa-thumbs-up"></i> {{project.upvotes}}</button>
+			</form>
+		</div>
+		
+	{% endif %}
+
+	{% if request.user.is_superuser %}
+	    
+		<form method="post" action="{% url 'deleteproj' project.slug %}" id="delete-project-form">
+			{% csrf_token %}
+			<button class="btn2">Delete Project</button>
+		</form>
+	
+	{% endif %}
+
+</section>
+
+<section class="comments">
+	<form action="." class="commentform" method="POST">
+		{% csrf_token %}
+		<textarea name="message" cols="30" rows="10">Leave me a comment</textarea>
+		<button class="btn2">Send</button>
+	</form>
+
+	{% if comments %}
+	    
+	    {% for comment in comments %}
+
+	    	<section class="comment-sec">
+
+	    		<div class="comment">
+
+		    		<div class="comment-x">
+						<p>{{comment.username}}</p>
+						<span>{{comment.timestamp}}</span>
+		    		</div>
+
+					<p class="message">{{comment.message}}</p>
+
+					<div class="comment-y">
+						<form class="upvote" action="{% url 'upvoteComm' comment.pk %}" method="POST">
+							{% csrf_token %}
+							<button class="btn2"><i class="fa-solid fa-thumbs-up"></i> {{comment.upvotes}}</button>
+						</form>
+						
+						{% if request.user.is_authenticated %}
+				    	    {% if request.user == comment.username or request.user.is_superuser %}
+				    	    	<form action="{% url 'deletecomment' comment.pk %}" method="post">
+				    	    		{% csrf_token %}
+				    	    		<button class="btn2">Delete</button>
+				    	    	</form>
+				    		{% endif %}
+				    	{% endif %}
+					</div>
+
+	    		</div>
+
+	    	</section>
+
+	    {% endfor %}
+	
+	{% else %}
+	    <p class="subtle first-to-comment">Be the first to leave a comment</p>
+	{% endif %}
+</section>
+
+{% endblock %}

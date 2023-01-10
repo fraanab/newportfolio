@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block main %}
+
+<section class="dashboard">
+
+	<div class="btn2" id="newp" style="width: initial;">New Project</div>
+
+	<div id="newpform">
+		
+		<form action="" method="POST" enctype="multipart/form-data">
+			{% csrf_token %}
+
+			{{ form }}
+
+			<button class="btn2">Submit</button>
+		</form>
+
+	</div>
+
+	<a href="{% url 'admin:index' %}" target="_blank" class="btn2" id="django-link">DJango page</a>
+
+</section>
+
+<section class="mails">
+
+	<p class="mails-title">Mail</p>
+
+	{% if mails %}
+
+		<table>
+			<thead>
+				<tr>
+					<th>EMail</th>
+					<th>Message</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				{% for mail in mails %}
+
+					<tr>
+						<td>{{mail.email}}</td>
+						<td>{{mail.message}}</td>
+						<td class="table-actions">
+							<form action="{% url 'deletemail' mail.pk %}" method="post">
+								{% csrf_token %}
+								<button class="btn2">Delete</button>
+							</form>
+							<a target="__blank" class="btn2" href="https://mail.google.com/mail/?view=cm&fs=1&to={{mail.email}}&body=BODY">Answer</a>
+						</td>
+					</tr>
+					
+				{% endfor %}
+			</tbody>
+		</table>
+	{% else %}
+
+	<p class="subtle2">This place is empty</p>
+
+	{% endif %}
+
+</section>
+
+{% endblock %}
+
+{% block scripts %}
+    <script>
+    	let projbutton = document.getElementById('newp')
+    	let projform = document.getElementById('newpform')
+
+    	projbutton.addEventListener('click', function(){
+    		if( projform.style.height === '0px' ){
+    			projform.style.height = '100%'
+    		}else{projform.style.height = '0px'}
+    	})
+    </script>
+{% endblock %}

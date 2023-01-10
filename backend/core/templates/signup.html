@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}Sign Up{% endblock %}
+{% block main %}
+<section class="sign">
+	<h1>Sign Up</h1>
+	<form action="." method="POST">
+		{% csrf_token %}
+		{{form}}
+		<button class="btn2">Sign Up</button>
+		<a href="{% url 'login' %}" class="subtle">Click here to Log In with an account.</a>
+	</form>
+</section>
+{% endblock %}

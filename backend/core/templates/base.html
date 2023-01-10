@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>{% block title %}{% endblock %} | sentey</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	{% load static %}
+	<link rel="shortcut icon" type="image/png" href="{% static 'favicon.png' %}"/>
+	<link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+	<div id="navbtn"><i class="fa-solid fa-bars"></i></div>
+	<nav id="navbar">
+		<div>
+			<a href="/">Home</a>
+			<a href="/#projects">Projects</a>
+			<a href="/#services">Services</a>
+			<a href="/#contact">Contact</a>
+			<a href="{% url 'gallery' %}">Gallery</a>
+		</div>
+		<div>
+			{% if request.user.is_authenticated %}
+				{% if request.user.is_superuser %}
+					<a class="btn1" href="{% url 'logout' %}">Log Out</a>
+					<a class="btn1" href="{% url 'dashboard' %}">Dashboard</a>
+				{% else %}
+			    	<a class="btn1" href="{% url 'logout' %}">Log Out</a>
+				{% endif %}
+			{% else %}
+				<a href="{% url 'login' %}" class="btn1">Sign In</a>
+			{% endif %}
+		</div>
+	</nav>
+
+	<main id="main">
+	{% block main %}
+	{% endblock %}
+	</main>
+
+	<footer>
+		<div class="links">
+			<a href="/">Home</a>
+			<a href="/#projects">Projects</a>
+			<a href="/#services">Services</a>
+			<a href="/#contact">Contact</a>
+			<a href="{% url 'gallery' %}">Gallery</a>
+		</div>
+		<div class="links">
+			<a href="https://github.com/sentey"><i class="fa-brands fa-github"></i></a>
+			<a href="https://twitter.com/wiiintre"><i class="fa-brands fa-twitter"></i></a>
+			<a href="#"><i class="fa-solid fa-envelope"></i></a>
+		</div>
+	</footer>
+
+	<script>
+		let navbtn = document.getElementById('navbtn')
+		let navbar = document.getElementById('navbar')
+		let main = document.getElementById('main')
+		function openNav(){
+			navbar.style.width = '80%'
+		}
+		function closeNav(){
+			navbar.style.width = '0px'
+		}
+
+		function myFunction(x) {
+			if (x.matches) { // If media query matches
+				navbtn.addEventListener('click', openNav)
+				main.addEventListener('click', closeNav)
+				navbtn.style.cursor = 'pointer'
+				navbar.style.width = '0'
+			}else{
+				navbar.style.width = '100%'
+				navbtn.style.cursor = 'default'
+				main.removeEventListener('click', closeNav)
+			}
+		}
+
+		let x = window.matchMedia("(max-width: 720px)")
+		myFunction(x) // Call listener function at run time
+		x.addListener(myFunction) // Attach listener function on state changes
+	</script>
+	{% block scripts %}
+	{% endblock %}
+</body>
+</html>

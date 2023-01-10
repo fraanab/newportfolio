@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}Gallery{% endblock %}
+{% block main %}
+    <h1 class="gallery-title">My Gallery</h1>
+    <section class="gallery">
+    	{% if pictures %}
+
+	    	{% for pic in pictures %}
+	    		{% if pic.image %}
+	    		<div class="picture">
+	    			<img src="{{pic.image.url}}" alt="{{pic.name}}" title="{{pic.name}}">
+	    			{% if request.user.is_superuser %}
+	    			<form action="{% url 'deletepic' pic.name %}" method="post" class="pic-delete">
+	    				{% csrf_token %}
+	    				<button><i class="fa-solid fa-circle-xmark"></i></button>
+	    			</form>
+	    			{% else %}
+	    			<form action="{% url 'upvotepic' pic.name %}" method="post" class="pic-like">
+	    				{% csrf_token %}
+	    				<button><i class="fa-solid fa-thumbs-up"></i> {{pic.upvotes}}</button>
+	    			</form>
+	    			{% endif %}
+	    		</div>
+	    		{% endif %}
+
+	    		{% if pic.video %}
+	    		<div class="video">
+		    		<video autoplay title="{{pic.name}}">
+		    			<source src="{{pic.video.url}}" type="video/mp4">
+		    		</video>
+
+		    		{% if request.user.is_superuser %}
+	    			<form action="{% url 'deletepic' pic.name %}" method="post" class="pic-delete">
+	    				{% csrf_token %}
+	    				<button><i class="fa-solid fa-circle-xmark"></i></button>
+	    			</form>
+	    			{% else %}
+	    			<form action="{% url 'upvotepic' pic.name %}" method="post" class="pic-like">
+	    				{% csrf_token %}
+	    				<button><i class="fa-solid fa-thumbs-up"></i> {{pic.upvotes}}</button>
+	    			</form>
+	    			{% endif %}
+	    		</div>
+	    		{% endif %}
+	    	{% endfor %}
+	    {% else %}
+	        <p class="subtle">This is empty</p>
+    	{% endif %}
+    </section>
+
+<section class="sign">
+
+	{% if request.user.is_superuser %}
+		<form action="{% url 'newpic' %}" method="post" class="galleryform" enctype="multipart/form-data">
+			{% csrf_token %}
+			{{form}}
+			<button class="btn2">Add</button>
+		</form>
+	{% endif %}
+	
+</section>
+{% endblock %}
