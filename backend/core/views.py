@@ -7,7 +7,7 @@ from .forms import ContactForm, NewProj
 from django.http import HttpResponseRedirect
 
 def frontpage(request):
-	projects = Project.objects.all()
+	projects = Project.objects.all().order_by("-id")
 	totalproj = projects.count()
 	if request.method == 'POST':
 		contactform = ContactForm(request.POST)

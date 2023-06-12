@@ -117,7 +117,7 @@ body{
 	flex-wrap: wrap;
 	justify-content: space-around;
 	gap: 1rem;
-	border-bottom: 1px solid var(--c);
+/* 	border-bottom: 1px solid var(--c); */
 	padding-bottom: 10rem;
 }
 ::selection{
@@ -150,7 +150,7 @@ body{
 	left: 0;
 	width: 100%;
 	height: 100%;
-	box-shadow: 0px -180px 180px 20px #000000cc inset;
+	box-shadow: 0px -180px 180px 20px #474973cc inset;
 	z-index: 2;
 }
 .project-bottom{
@@ -218,6 +218,7 @@ body{
 	display: flex;flex-direction: column;
 	align-items: flex-start;gap: 20px;
 }
+.contact-left a,
 .contact-left span{color: var(--e);}
 .subtle{
 	font-size: .8rem;
@@ -649,7 +650,7 @@ nav div:last-child .btn1:first-child{margin: 0 10px 0 0}
 		display: flex;
 		align-items: center;justify-content: center;
 		position: absolute;
-		bottom: 21vh;
+		bottom: 10vh;
 	}
 	.call-to-action{
 		display: block;

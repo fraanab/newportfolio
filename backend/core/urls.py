@@ -6,7 +6,7 @@ from django.contrib import admin
 urlpatterns = [
 	path('', frontpage, name="frontpage"),
 	path('signup/', signup, name='signup'),
-    path('login/', views.LoginView.as_view(template_name='login.html'), name='login'),
+  path('login/', views.LoginView.as_view(template_name='login.html'), name='login'),
 	path('logout/', views.LogoutView.as_view(), name='logout'),
 	path('dashboard/', dashboard, name="dashboard"),
 	path('upvoteproj/<slug:slug>/', upvoteProj, name='upvoteProj'),
